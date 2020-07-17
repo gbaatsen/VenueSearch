@@ -1,13 +1,13 @@
 package com.baatsen.venuesearch.presentation.venues
 
 import androidx.lifecycle.ViewModel
+import com.baatsen.venuesearch.R
 import com.baatsen.venuesearch.SchedulerProvider
 import com.baatsen.venuesearch.SingleLiveEvent
-import com.baatsen.venuesearch.domain.model.Venue
 import com.baatsen.venuesearch.domain.interactor.GetVenuesService
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.baatsen.venuesearch.domain.model.Venue
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
 
 class VenueViewModel(
     private val scheduler: SchedulerProvider,
@@ -17,7 +17,7 @@ class VenueViewModel(
     private lateinit var subscription: Disposable
     val venues = SingleLiveEvent<List<Venue>>()
     val isLoading = SingleLiveEvent<Boolean>()
-    val error = SingleLiveEvent<Boolean>()
+    val error = SingleLiveEvent<Int>()
 
 
     override fun onCleared() {
@@ -34,12 +34,20 @@ class VenueViewModel(
             .doAfterTerminate { isLoading.postValue(false) }
             .subscribe(
                 { venues -> onVenuesReceived(venues) },
-                { onError() }
+                { t -> onError(t) }
             )
     }
 
-    private fun onError() {
-        error.postValue(true)
+    private fun onError(t: Throwable) {
+        if (t.cause is HttpException) {
+            when ((t.cause as HttpException).code()) {
+                400 -> error.postValue(R.string.error_location_not_found)
+                403, 429 -> error.postValue(R.string.error_limit_exceeded)
+                else -> error.postValue(R.string.error_loading_venues)
+            }
+            return
+        }
+        error.postValue(R.string.error_loading_venues)
     }
 
     private fun onVenuesReceived(venues: List<Venue>) {

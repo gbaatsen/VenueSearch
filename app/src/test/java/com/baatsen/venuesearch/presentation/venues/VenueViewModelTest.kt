@@ -2,11 +2,14 @@ package com.baatsen.venuesearch.presentation.venuedetails
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.baatsen.venuesearch.ImmediateSchedulerProvider
+import com.baatsen.venuesearch.R
 import com.baatsen.venuesearch.domain.interactor.GetVenuesService
 import com.baatsen.venuesearch.domain.model.Venue
 import com.baatsen.venuesearch.presentation.venues.VenueViewModel
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
+import okhttp3.MediaType
+import okhttp3.ResponseBody
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -14,6 +17,8 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnit
+import retrofit2.HttpException
+import retrofit2.Response
 
 class VenueViewModelTest {
     @get:Rule
@@ -56,12 +61,60 @@ class VenueViewModelTest {
     }
 
     @Test
-    fun `error is set when occurred`() {
+    fun `right error is set when occurred http 400`() {
+        val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
+        val errorResponse = Response.error<Any>(400, responseBody)
+        whenever(getVenueService("Amsterdram")).thenReturn(
+            Single.error(IllegalStateException(HttpException(errorResponse)))
+
+        )
+        venueViewModel.getVenues("Amsterdram")
+        assertEquals(venueViewModel.error.value, R.string.error_location_not_found)
+    }
+
+    @Test
+    fun `right error is set when occurred http 403`() {
+        val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
+        val errorResponse = Response.error<Any>(403, responseBody)
+        whenever(getVenueService("Amsterdam")).thenReturn(
+            Single.error(IllegalStateException(HttpException(errorResponse)))
+
+        )
+        venueViewModel.getVenues("Amsterdam")
+        assertEquals(venueViewModel.error.value, R.string.error_limit_exceeded)
+    }
+
+    @Test
+    fun `right error is set when occurred http 429`() {
+        val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
+        val errorResponse = Response.error<Any>(429, responseBody)
+        whenever(getVenueService("Amsterdam")).thenReturn(
+            Single.error(IllegalStateException(HttpException(errorResponse)))
+
+        )
+        venueViewModel.getVenues("Amsterdam")
+        assertEquals(venueViewModel.error.value, R.string.error_limit_exceeded)
+    }
+
+    @Test
+    fun `right error is set when occurred http 500`() {
+        val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
+        val errorResponse = Response.error<Any>(500, responseBody)
+        whenever(getVenueService("Amsterdam")).thenReturn(
+            Single.error(IllegalStateException(HttpException(errorResponse)))
+
+        )
+        venueViewModel.getVenues("Amsterdam")
+        assertEquals(venueViewModel.error.value, R.string.error_loading_venues)
+    }
+
+    @Test
+    fun `right error is set when occurred any other error`() {
         whenever(getVenueService("Amsterdam")).thenReturn(
             Single.error(IllegalStateException())
 
         )
         venueViewModel.getVenues("Amsterdam")
-        assertEquals(venueViewModel.error.value, true)
+        assertEquals(venueViewModel.error.value, R.string.error_loading_venues)
     }
 }

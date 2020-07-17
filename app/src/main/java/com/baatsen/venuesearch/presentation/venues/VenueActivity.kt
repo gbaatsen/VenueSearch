@@ -11,9 +11,6 @@ import com.baatsen.venuesearch.presentation.venuedetails.VenueDetailActivity
 import com.baatsen.venuesearch.setVisible
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.venue_activity.*
-import kotlinx.android.synthetic.main.venue_activity.loading_indicator
-import kotlinx.android.synthetic.main.venue_activity.sad_droid
-import kotlinx.android.synthetic.main.venue_detail_activity.*
 import org.jetbrains.anko.intentFor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -39,7 +36,7 @@ class VenueActivity : AppCompatActivity() {
 
         viewModel.venues.observe(this, Observer { onVenuesLoaded(it) })
         viewModel.isLoading.observe(this, Observer { showLoadingIndicator(it) })
-        viewModel.error.observe(this, Observer { showErrorMessage() })
+        viewModel.error.observe(this, Observer { showErrorMessage(it) })
     }
 
     private fun onVenueClicked(venueId: String) {
@@ -55,9 +52,9 @@ class VenueActivity : AppCompatActivity() {
         venueAdapter.updateVenues(venues)
     }
 
-    private fun showErrorMessage() {
+    private fun showErrorMessage(errorResId: Int) {
         sad_droid.setVisible(true)
-        Snackbar.make(sad_droid, R.string.error_loading_details, Snackbar.LENGTH_LONG)
+        Snackbar.make(sad_droid, errorResId, Snackbar.LENGTH_LONG)
             .show()
     }
 }

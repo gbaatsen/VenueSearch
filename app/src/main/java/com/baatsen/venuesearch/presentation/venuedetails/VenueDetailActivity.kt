@@ -24,14 +24,14 @@ class VenueDetailActivity : AppCompatActivity() {
 
         viewModel.venueDetails.observe(this, Observer { onVenueDetailsLoaded(it) })
         viewModel.isLoading.observe(this, Observer { showLoadingIndicator(it) })
-        viewModel.error.observe(this, Observer { showErrorMessage() })
+        viewModel.error.observe(this, Observer { showErrorMessage(it) })
 
         venueId?.let { viewModel.getVenueDetails(it) }
     }
 
-    private fun showErrorMessage() {
+    private fun showErrorMessage(errorResId: Int) {
         sad_droid.setVisible(true)
-        Snackbar.make(sad_droid, R.string.error_loading_details, Snackbar.LENGTH_LONG)
+        Snackbar.make(sad_droid, errorResId, Snackbar.LENGTH_LONG)
             .show()
     }
 
