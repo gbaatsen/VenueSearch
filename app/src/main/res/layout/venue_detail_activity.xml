@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/medium_spacing">
+
+        <TextView
+            android:id="@+id/venue_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            app:layout_constraintEnd_toStartOf="@id/venue_rating"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="The Grand Palace" />
+
+        <TextView
+            android:id="@+id/venue_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintEnd_toStartOf="@id/venue_rating"
+            app:layout_constraintStart_toStartOf="@id/venue_name"
+            app:layout_constraintTop_toBottomOf="@id/venue_name"
+            tools:text="The best hotel in the world" />
+
+        <TextView
+            android:id="@+id/venue_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintEnd_toStartOf="@id/venue_rating"
+            app:layout_constraintStart_toStartOf="@id/venue_name"
+            app:layout_constraintTop_toBottomOf="@id/venue_description"
+            tools:text="201 Purple Boulevard" />
+
+        <TextView
+            android:id="@+id/venue_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_phone_24px"
+            android:drawablePadding="@dimen/small_spacing"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintEnd_toStartOf="@id/venue_rating"
+            app:layout_constraintStart_toStartOf="@id/venue_name"
+            app:layout_constraintTop_toBottomOf="@id/venue_address"
+            tools:text="+31 20 67390726" />
+
+        <TextView
+            android:id="@+id/venue_twitter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_twitter_logo_blue"
+            android:drawablePadding="@dimen/small_spacing"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintEnd_toStartOf="@id/venue_rating"
+            app:layout_constraintStart_toStartOf="@id/venue_name"
+            app:layout_constraintTop_toBottomOf="@id/venue_phone"
+            tools:text="\@venue" />
+
+        <TextView
+            android:id="@+id/venue_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="10.0" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/photos"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/medium_spacing"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/venue_phone" />
+
+        <ProgressBar
+            android:id="@+id/loading_indicator"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/sad_droid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:contentDescription="@null"
+            android:src="@drawable/sad_droid"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
