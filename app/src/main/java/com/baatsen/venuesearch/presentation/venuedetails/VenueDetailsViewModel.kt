@@ -1,6 +1,7 @@
 package com.baatsen.venuesearch.presentation.venuedetails
 
 import androidx.lifecycle.ViewModel
+import com.baatsen.venuesearch.SchedulerProvider
 import com.baatsen.venuesearch.SingleLiveEvent
 import com.baatsen.venuesearch.domain.interactor.GetVenueDetailsService
 import com.baatsen.venuesearch.domain.model.Photo
@@ -10,6 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class VenueDetailsViewModel(
+    private val scheduler: SchedulerProvider,
     private val getVenueDetailsService: GetVenueDetailsService
 ) : ViewModel() {
 
@@ -26,8 +28,8 @@ class VenueDetailsViewModel(
     fun getVenueDetails(venueId: String) {
         subscription.clear()
         subscription.add(getVenueDetailsService(venueId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(scheduler.io())
+            .observeOn(scheduler.ui())
             .doOnSubscribe { isLoading.postValue(true) }
             .doAfterTerminate { isLoading.postValue(false) }
             .subscribe(

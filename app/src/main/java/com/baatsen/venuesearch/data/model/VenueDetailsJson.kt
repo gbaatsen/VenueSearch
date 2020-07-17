@@ -3,11 +3,11 @@ package com.baatsen.venuesearch.data.model
 data class VenueDetailsJson(
     val id: String,
     val name: String,
-    val location: VenueLocation,
-    val description: String?,
-    val contact: Contact,
-    val rating: Double?,
-    val photos: Photos?
+    val location: VenueLocation? = null,
+    val description: String? = null,
+    val contact: Contact? = null,
+    val rating: Double? = null,
+    val photos: Photos? = null
 )
 
 data class Photos(
@@ -28,12 +28,12 @@ data class Group(
 
 
 data class Photo(
-    val prefix: String?,
-    val suffix: String?
+    val prefix: String? = null,
+    val suffix: String? = null
 )
 
 data class Contact(
-    val phone: String?,
-    val formattedPhone: String?,
-    val twitter: String?
+    val phone: String? = null,
+    val formattedPhone: String? = null,
+    val twitter: String? = null
 )

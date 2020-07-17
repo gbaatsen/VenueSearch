@@ -1,6 +1,8 @@
 package com.baatsen.venuesearch.di
 
 import android.content.SharedPreferences
+import com.baatsen.venuesearch.AndroidSchedulerProvider
+import com.baatsen.venuesearch.SchedulerProvider
 import com.baatsen.venuesearch.data.model.VenueDetailsMapper
 import com.baatsen.venuesearch.data.model.VenueMapper
 import com.baatsen.venuesearch.data.repository.VenueDetailsRepository
@@ -49,8 +51,8 @@ val appModule = module {
     single<SharedPreferences> { (androidApplication().defaultSharedPreferences) }
 
     //ViewModels
-    viewModel { VenueViewModel(get()) }
-    viewModel { VenueDetailsViewModel(get()) }
+    viewModel { VenueViewModel(get(), get()) }
+    viewModel { VenueDetailsViewModel(get(), get()) }
 
     //Repos
     factory { VenueRepository(forSquareService, get(), get(), get()) }
@@ -62,4 +64,6 @@ val appModule = module {
     factory { VenueMapper() }
     factory { VenueDetailsMapper() }
     single { Gson() }
+    single<SchedulerProvider> { AndroidSchedulerProvider }
+
 }

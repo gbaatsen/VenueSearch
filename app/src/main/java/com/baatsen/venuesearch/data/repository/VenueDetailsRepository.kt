@@ -29,7 +29,7 @@ class VenueDetailsRepository(
             .map { venueDetailsMapper.transform(it) }
             .doOnNext { store(venueId, it) }
             .onErrorReturn { getFromCache(venueId) }
-            .singleOrError() //todo HIER dus caching doen https://proandroiddev.com/clean-architecture-data-flow-dependency-rule-615ffdd79e29
+            .singleOrError()
     }
 
     private fun getFromCache(venueId: String): VenueDetails {

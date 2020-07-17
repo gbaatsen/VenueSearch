@@ -1,16 +1,16 @@
 package com.baatsen.venuesearch.data.model
 
 data class VenueLocation(
-    val address: String?,
-    val crossStreet: String?,
-    val city: String?,
-    val state: String?,
-    val postalCode: String?,
-    val country: String?,
-    val lat: Double?,
-    val lng: Double?,
-    val distance: Int?,
-    val formattedAddress: List<String>?
+    val address: String? = null,
+    val crossStreet: String? = null,
+    val city: String? = null,
+    val state: String? = null,
+    val postalCode: String? = null,
+    val country: String? = null,
+    val lat: Double? = null,
+    val lng: Double? = null,
+    val distance: Int? = null,
+    val formattedAddress: List<String>? = null
 ) {
     override fun toString(): String {
         if (!formattedAddress.isNullOrEmpty()) return formattedAddress.joinToString()

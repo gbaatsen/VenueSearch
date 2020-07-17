@@ -10,9 +10,10 @@ import com.baatsen.venuesearch.domain.model.Venue
 import com.baatsen.venuesearch.presentation.venuedetails.VenueDetailActivity
 import com.baatsen.venuesearch.setVisible
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.venue_activity.*
+import kotlinx.android.synthetic.main.venue_activity.loading_indicator
+import kotlinx.android.synthetic.main.venue_activity.sad_droid
 import kotlinx.android.synthetic.main.venue_detail_activity.*
-import kotlinx.android.synthetic.main.venue_search_activity.*
-import kotlinx.android.synthetic.main.venue_search_activity.loading_indicator
 import org.jetbrains.anko.intentFor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,11 +24,9 @@ class VenueActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.venue_search_activity)
+        setContentView(R.layout.venue_activity)
         venues.adapter = venueAdapter
         venueAdapter.onVenueClicked = { onVenueClicked(it) }
-
-        search_edit.setText("Amsterdam")
 
         search_edit.setOnEditorActionListener { _, actionId, _ ->
             if ((actionId == EditorInfo.IME_ACTION_DONE || actionId == IME_ACTION_SEARCH) &&
@@ -52,6 +51,7 @@ class VenueActivity : AppCompatActivity() {
     }
 
     private fun onVenuesLoaded(venues: List<Venue>) {
+        sad_droid.setVisible(false)
         venueAdapter.updateVenues(venues)
     }
 
