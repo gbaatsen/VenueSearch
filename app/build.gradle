@@ -77,5 +77,4 @@ dependencies {
     testImplementation("org.mockito:mockito-core:2.23.0")
     testImplementation("org.mockito:mockito-inline:2.23.0")
     testImplementation("androidx.arch.core:core-testing:2.1.0")
-
 }

@@ -8,6 +8,7 @@ import com.baatsen.venuesearch.domain.model.Photo
 import com.baatsen.venuesearch.domain.model.VenueDetails
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class VenueDetailsViewModel(
@@ -15,7 +16,7 @@ class VenueDetailsViewModel(
     private val getVenueDetailsService: GetVenueDetailsService
 ) : ViewModel() {
 
-    private var subscription = CompositeDisposable()
+    private lateinit var subscription: Disposable
     val venueDetails = SingleLiveEvent<VenueDetails>()
     val error = SingleLiveEvent<Boolean>()
     val isLoading = SingleLiveEvent<Boolean>()
@@ -26,8 +27,7 @@ class VenueDetailsViewModel(
     }
 
     fun getVenueDetails(venueId: String) {
-        subscription.clear()
-        subscription.add(getVenueDetailsService(venueId)
+        subscription = getVenueDetailsService(venueId)
             .subscribeOn(scheduler.io())
             .observeOn(scheduler.ui())
             .doOnSubscribe { isLoading.postValue(true) }
@@ -35,7 +35,7 @@ class VenueDetailsViewModel(
             .subscribe(
                 { venueDetails -> onVenuesReceived(venueDetails) },
                 { onError() }
-            ))
+            )
     }
 
     private fun onVenuesReceived(venueDetails: VenueDetails) {
