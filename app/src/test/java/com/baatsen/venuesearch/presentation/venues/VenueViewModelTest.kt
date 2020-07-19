@@ -3,7 +3,7 @@ package com.baatsen.venuesearch.presentation.venues
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.baatsen.venuesearch.ImmediateSchedulerProvider
 import com.baatsen.venuesearch.R
-import com.baatsen.venuesearch.domain.interactor.GetVenuesService
+import com.baatsen.venuesearch.domain.interactor.GetVenuesUseCase
 import com.baatsen.venuesearch.domain.model.Venue
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
@@ -28,14 +28,14 @@ class VenueViewModelTest {
     var testRule: TestRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var getVenueService: GetVenuesService
+    private lateinit var getVenueUseCase: GetVenuesUseCase
 
     private lateinit var venueViewModel: VenueViewModel
 
     @Before
     fun setup() {
         venueViewModel =
-            VenueViewModel(ImmediateSchedulerProvider, getVenueService)
+            VenueViewModel(ImmediateSchedulerProvider, getVenueUseCase)
 
     }
 
@@ -52,7 +52,7 @@ class VenueViewModelTest {
             location = "Blastraat 14, Amsterdam"
         )
 
-        whenever(getVenueService("Amsterdam")).thenReturn(
+        whenever(getVenueUseCase("Amsterdam")).thenReturn(
             Single.just(listOf(venue1, venue2))
 
         )
@@ -64,7 +64,7 @@ class VenueViewModelTest {
     fun `right error is set when occurred http 400`() {
         val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
         val errorResponse = Response.error<Any>(400, responseBody)
-        whenever(getVenueService("Amsterdram")).thenReturn(
+        whenever(getVenueUseCase("Amsterdram")).thenReturn(
             Single.error(IllegalStateException(HttpException(errorResponse)))
 
         )
@@ -76,7 +76,7 @@ class VenueViewModelTest {
     fun `right error is set when occurred http 403`() {
         val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
         val errorResponse = Response.error<Any>(403, responseBody)
-        whenever(getVenueService("Amsterdam")).thenReturn(
+        whenever(getVenueUseCase("Amsterdam")).thenReturn(
             Single.error(IllegalStateException(HttpException(errorResponse)))
 
         )
@@ -88,7 +88,7 @@ class VenueViewModelTest {
     fun `right error is set when occurred http 429`() {
         val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
         val errorResponse = Response.error<Any>(429, responseBody)
-        whenever(getVenueService("Amsterdam")).thenReturn(
+        whenever(getVenueUseCase("Amsterdam")).thenReturn(
             Single.error(IllegalStateException(HttpException(errorResponse)))
 
         )
@@ -100,7 +100,7 @@ class VenueViewModelTest {
     fun `right error is set when occurred http 500`() {
         val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
         val errorResponse = Response.error<Any>(500, responseBody)
-        whenever(getVenueService("Amsterdam")).thenReturn(
+        whenever(getVenueUseCase("Amsterdam")).thenReturn(
             Single.error(IllegalStateException(HttpException(errorResponse)))
 
         )
@@ -110,7 +110,7 @@ class VenueViewModelTest {
 
     @Test
     fun `right error is set when occurred any other error`() {
-        whenever(getVenueService("Amsterdam")).thenReturn(
+        whenever(getVenueUseCase("Amsterdam")).thenReturn(
             Single.error(IllegalStateException())
 
         )

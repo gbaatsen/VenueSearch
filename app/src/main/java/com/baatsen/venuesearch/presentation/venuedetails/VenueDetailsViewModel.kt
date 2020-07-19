@@ -4,14 +4,14 @@ import androidx.lifecycle.ViewModel
 import com.baatsen.venuesearch.R
 import com.baatsen.venuesearch.SchedulerProvider
 import com.baatsen.venuesearch.SingleLiveEvent
-import com.baatsen.venuesearch.domain.interactor.GetVenueDetailsService
+import com.baatsen.venuesearch.domain.interactor.GetVenueDetailsUseCase
 import com.baatsen.venuesearch.domain.model.VenueDetails
 import io.reactivex.disposables.Disposable
 import retrofit2.HttpException
 
 class VenueDetailsViewModel(
     private val scheduler: SchedulerProvider,
-    private val getVenueDetailsService: GetVenueDetailsService
+    private val getVenueDetailsUseCase: GetVenueDetailsUseCase
 ) : ViewModel() {
 
     private lateinit var subscription: Disposable
@@ -25,7 +25,7 @@ class VenueDetailsViewModel(
     }
 
     fun getVenueDetails(venueId: String) {
-        subscription = getVenueDetailsService(venueId)
+        subscription = getVenueDetailsUseCase(venueId)
             .subscribeOn(scheduler.io())
             .observeOn(scheduler.ui())
             .doOnSubscribe { isLoading.postValue(true) }

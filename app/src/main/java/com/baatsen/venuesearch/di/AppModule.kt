@@ -10,8 +10,8 @@ import com.baatsen.venuesearch.data.model.VenueMapper
 import com.baatsen.venuesearch.data.repository.VenueDetailsRepository
 import com.baatsen.venuesearch.data.repository.VenueRepository
 import com.baatsen.venuesearch.data.service.FourSquareApiConfig
-import com.baatsen.venuesearch.domain.interactor.GetVenueDetailsService
-import com.baatsen.venuesearch.domain.interactor.GetVenuesService
+import com.baatsen.venuesearch.domain.interactor.GetVenueDetailsUseCase
+import com.baatsen.venuesearch.domain.interactor.GetVenuesUseCase
 import com.baatsen.venuesearch.presentation.venuedetails.VenueDetailsViewModel
 import com.baatsen.venuesearch.presentation.venues.VenueViewModel
 import okhttp3.logging.HttpLoggingInterceptor
@@ -34,12 +34,12 @@ val appModule = module {
     factory { VenueDetailsMapper() }
 
     //Network
-    factory { GetVenuesService(get()) }
-    factory { GetVenueDetailsService(get()) }
-    single { androidContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager }
+    factory { GetVenuesUseCase(get()) }
+    factory { GetVenueDetailsUseCase(get()) }
+    factory { androidContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager }
     single {
         val cacheDir = File(androidContext().cacheDir, "http")
-        FourSquareApiConfig(get(), get(), cacheDir)
+        FourSquareApiConfig(get(), get(), cacheDir).get()
     }
     single { CacheInterceptor(get()) }
     single { HttpLoggingInterceptor() }
