@@ -41,8 +41,8 @@ class VenueDetailsViewModel(
     }
 
     private fun onError(t: Throwable) {
-        if (t.cause is HttpException) {
-            when ((t.cause as HttpException).code()) {
+        if (t is HttpException) {
+            when (t .code()) {
                 403, 429 -> error.postValue(R.string.error_limit_exceeded)
                 else -> error.postValue(R.string.error_loading_details)
             }

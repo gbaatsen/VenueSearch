@@ -65,8 +65,7 @@ class VenueViewModelTest {
         val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
         val errorResponse = Response.error<Any>(400, responseBody)
         whenever(getVenueUseCase("Amsterdram")).thenReturn(
-            Single.error(IllegalStateException(HttpException(errorResponse)))
-
+            Single.error(HttpException(errorResponse))
         )
         venueViewModel.getVenues("Amsterdram")
         assertEquals(venueViewModel.error.value, R.string.error_location_not_found)
@@ -77,8 +76,7 @@ class VenueViewModelTest {
         val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
         val errorResponse = Response.error<Any>(403, responseBody)
         whenever(getVenueUseCase("Amsterdam")).thenReturn(
-            Single.error(IllegalStateException(HttpException(errorResponse)))
-
+            Single.error(HttpException(errorResponse))
         )
         venueViewModel.getVenues("Amsterdam")
         assertEquals(venueViewModel.error.value, R.string.error_limit_exceeded)
@@ -89,8 +87,7 @@ class VenueViewModelTest {
         val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
         val errorResponse = Response.error<Any>(429, responseBody)
         whenever(getVenueUseCase("Amsterdam")).thenReturn(
-            Single.error(IllegalStateException(HttpException(errorResponse)))
-
+            Single.error(HttpException(errorResponse))
         )
         venueViewModel.getVenues("Amsterdam")
         assertEquals(venueViewModel.error.value, R.string.error_limit_exceeded)
@@ -101,8 +98,7 @@ class VenueViewModelTest {
         val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
         val errorResponse = Response.error<Any>(500, responseBody)
         whenever(getVenueUseCase("Amsterdam")).thenReturn(
-            Single.error(IllegalStateException(HttpException(errorResponse)))
-
+            Single.error(HttpException(errorResponse))
         )
         venueViewModel.getVenues("Amsterdam")
         assertEquals(venueViewModel.error.value, R.string.error_loading_venues)

@@ -5,5 +5,5 @@
     <string name="error_loading_details">There was an error loading the details of this venue, please try again later</string>
     <string name="error_loading_venues">There was an error loading venues for this location, please try again later</string>
     <string name="error_location_not_found">This location is not found</string>
-    <string name="error_limit_exceeded">The limit for calling this endpoint has exceeded</string>
+    <string name="error_limit_exceeded">The limit for calling this endpoint is exceeded</string>
 </resources>

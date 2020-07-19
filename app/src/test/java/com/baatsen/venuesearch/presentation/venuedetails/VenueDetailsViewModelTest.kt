@@ -51,7 +51,6 @@ class VenueDetailsViewModelTest {
 
         whenever(getVenueDetailsUseCase("12")).thenReturn(
             Single.just(venueDetails)
-
         )
         venueDetailsViewModel.getVenueDetails("12")
         assertEquals(venueDetailsViewModel.venueDetails.value, venueDetails)
@@ -62,8 +61,7 @@ class VenueDetailsViewModelTest {
         val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
         val errorResponse = Response.error<Any>(403, responseBody)
         whenever(getVenueDetailsUseCase("6572")).thenReturn(
-            Single.error(IllegalStateException(HttpException(errorResponse)))
-
+            Single.error(HttpException(errorResponse))
         )
         venueDetailsViewModel.getVenueDetails("6572")
         assertEquals(venueDetailsViewModel.error.value, R.string.error_limit_exceeded)
@@ -74,8 +72,7 @@ class VenueDetailsViewModelTest {
         val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
         val errorResponse = Response.error<Any>(429, responseBody)
         whenever(getVenueDetailsUseCase("6572")).thenReturn(
-            Single.error(IllegalStateException(HttpException(errorResponse)))
-
+            Single.error(HttpException(errorResponse))
         )
         venueDetailsViewModel.getVenueDetails("6572")
         assertEquals(venueDetailsViewModel.error.value, R.string.error_limit_exceeded)
@@ -86,8 +83,7 @@ class VenueDetailsViewModelTest {
         val responseBody = ResponseBody.create(MediaType.parse("application/json"), "")
         val errorResponse = Response.error<Any>(500, responseBody)
         whenever(getVenueDetailsUseCase("6572")).thenReturn(
-            Single.error(IllegalStateException(HttpException(errorResponse)))
-
+            Single.error(HttpException(errorResponse))
         )
         venueDetailsViewModel.getVenueDetails("6572")
         assertEquals(venueDetailsViewModel.error.value, R.string.error_loading_details)
@@ -97,7 +93,6 @@ class VenueDetailsViewModelTest {
     fun `right error is set when occurred any other error`() {
         whenever(getVenueDetailsUseCase("6572")).thenReturn(
             Single.error(IllegalStateException())
-
         )
         venueDetailsViewModel.getVenueDetails("6572")
         assertEquals(venueDetailsViewModel.error.value, R.string.error_loading_details)
