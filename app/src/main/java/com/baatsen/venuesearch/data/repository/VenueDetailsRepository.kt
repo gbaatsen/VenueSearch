@@ -6,14 +6,15 @@ import com.baatsen.venuesearch.data.service.FourSquareApiConfig
 import com.baatsen.venuesearch.domain.model.VenueDetails
 import io.reactivex.Single
 
+private const val VERSION_DATE = "20200701"
+
 class VenueDetailsRepository(
     private val fourSquareApiConfig: FourSquareApiConfig,
     private val venueDetailsMapper: VenueDetailsMapper
 ) {
-    val VERSION_DATE = "20200701"
 
     fun getVenueDetails(venueId: String): Single<VenueDetails> {
-        return fourSquareApiConfig.create().getVenueDetails(
+        return fourSquareApiConfig.get().getVenueDetails(
             venueId = venueId,
             clientId = BuildConfig.CLIENT_ID,
             secretId = BuildConfig.SECRET_ID,

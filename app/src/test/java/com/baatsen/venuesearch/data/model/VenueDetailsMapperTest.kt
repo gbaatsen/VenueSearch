@@ -1,18 +1,14 @@
 package com.baatsen.venuesearch.data.model
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.baatsen.venuesearch.domain.model.VenueDetails
 import org.junit.Assert.assertEquals
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class VenueDetailsMapperTest {
-    val venueDetailsMapper = VenueDetailsMapper()
+    private val venueDetailsMapper = VenueDetailsMapper()
 
     @Test
     fun `formatted phone number is returned when available`() {

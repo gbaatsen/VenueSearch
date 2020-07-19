@@ -20,7 +20,7 @@ class FourSquareApiConfig(
     private val cacheDir: File
 
 ) {
-    fun create(): FourSquareApi {
+    fun get(): FourSquareApi {
         val cacheSize = (5 * 1024 * 1024).toLong() //5MB
         val cache = Cache(cacheDir, cacheSize)
 
@@ -41,5 +41,4 @@ class FourSquareApiConfig(
             .build()
             .create(FourSquareApi::class.java)
     }
-
 }

@@ -6,17 +6,16 @@ import com.baatsen.venuesearch.data.service.FourSquareApiConfig
 import com.baatsen.venuesearch.domain.model.Venue
 import io.reactivex.Single
 
+private const val RADIUS = 10000
+private const val LIMIT = 10
+private const val VERSION_DATE = "20200701"
 
 class VenueRepository(
     private val fourSquareApiConfig: FourSquareApiConfig,
     private val venueMapper: VenueMapper
 ) {
-    val RADIUS = 10000
-    val LIMIT = 10
-    val VERSION_DATE = "20200701"
-
     fun getVenues(location: String): Single<List<Venue>> {
-        return fourSquareApiConfig.create().getVenues(
+        return fourSquareApiConfig.get().getVenues(
             clientId = BuildConfig.CLIENT_ID,
             secretId = BuildConfig.SECRET_ID,
             near = location,

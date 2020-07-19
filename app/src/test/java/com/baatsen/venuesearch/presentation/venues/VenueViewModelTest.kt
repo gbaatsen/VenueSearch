@@ -1,11 +1,10 @@
-package com.baatsen.venuesearch.presentation.venuedetails
+package com.baatsen.venuesearch.presentation.venues
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.baatsen.venuesearch.ImmediateSchedulerProvider
 import com.baatsen.venuesearch.R
 import com.baatsen.venuesearch.domain.interactor.GetVenuesService
 import com.baatsen.venuesearch.domain.model.Venue
-import com.baatsen.venuesearch.presentation.venues.VenueViewModel
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
 import okhttp3.MediaType
@@ -17,12 +16,13 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 import retrofit2.HttpException
 import retrofit2.Response
 
 class VenueViewModelTest {
     @get:Rule
-    val mockitoRule = MockitoJUnit.rule()
+    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     @get:Rule
     var testRule: TestRule = InstantTaskExecutorRule()

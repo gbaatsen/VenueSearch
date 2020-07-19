@@ -15,8 +15,8 @@ data class Photos(
 ) {
     fun toUrlList(): List<String> {
         val result = mutableListOf<String>()
-        groups?.forEach {
-            it.items.forEach { result.add(it.prefix + "height500" + it.suffix) }
+        groups?.forEach { group ->
+            group.items.forEach { photo -> result.add(photo.prefix + "height300" + photo.suffix) }
         }
         return result
     }

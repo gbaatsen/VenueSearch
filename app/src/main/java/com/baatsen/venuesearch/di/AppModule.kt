@@ -1,7 +1,6 @@
 package com.baatsen.venuesearch.di
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import com.baatsen.venuesearch.AndroidSchedulerProvider
 import com.baatsen.venuesearch.CacheInterceptor
@@ -16,16 +15,12 @@ import com.baatsen.venuesearch.domain.interactor.GetVenuesService
 import com.baatsen.venuesearch.presentation.venuedetails.VenueDetailsViewModel
 import com.baatsen.venuesearch.presentation.venues.VenueViewModel
 import okhttp3.logging.HttpLoggingInterceptor
-import org.jetbrains.anko.defaultSharedPreferences
-import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import java.io.File
 
 val appModule = module {
-    single<SharedPreferences> { (androidApplication().defaultSharedPreferences) }
-
     //ViewModels
     viewModel { VenueViewModel(get(), get()) }
     viewModel { VenueDetailsViewModel(get(), get()) }
@@ -34,11 +29,13 @@ val appModule = module {
     factory { VenueRepository(get(), get()) }
     factory { VenueDetailsRepository(get(), get()) }
 
-    //other stuff
-    factory { GetVenuesService(get()) }
-    factory { GetVenueDetailsService(get()) }
+    //Mappers
     factory { VenueMapper() }
     factory { VenueDetailsMapper() }
+
+    //Network
+    factory { GetVenuesService(get()) }
+    factory { GetVenueDetailsService(get()) }
     single { androidContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager }
     single {
         val cacheDir = File(androidContext().cacheDir, "http")
@@ -46,5 +43,7 @@ val appModule = module {
     }
     single { CacheInterceptor(get()) }
     single { HttpLoggingInterceptor() }
+
+    //Scheduler provider
     single<SchedulerProvider> { AndroidSchedulerProvider }
 }

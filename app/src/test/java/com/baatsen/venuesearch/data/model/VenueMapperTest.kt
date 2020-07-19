@@ -8,7 +8,7 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class VenueMapperTest {
-    val venueMapper = VenueMapper()
+    private val venueMapper = VenueMapper()
 
     @Test
     fun `formatted address is returned when available`() {

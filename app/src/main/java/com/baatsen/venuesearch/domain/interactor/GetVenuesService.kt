@@ -1,7 +1,7 @@
 package com.baatsen.venuesearch.domain.interactor
 
-import com.baatsen.venuesearch.domain.model.Venue
 import com.baatsen.venuesearch.data.repository.VenueRepository
+import com.baatsen.venuesearch.domain.model.Venue
 import io.reactivex.Single
 
 class GetVenuesService(private val repository: VenueRepository) {

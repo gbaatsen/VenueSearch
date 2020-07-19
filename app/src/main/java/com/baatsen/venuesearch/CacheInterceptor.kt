@@ -31,10 +31,10 @@ class CacheInterceptor(private val connectivityManager: ConnectivityManager) : I
     private fun isConnected(): Boolean {
         val capabilities =
             connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        if (capabilities != null) {
-            return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+        return if (capabilities != null) {
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
                     capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
                     capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
-        } else return false
+        } else false
     }
 }

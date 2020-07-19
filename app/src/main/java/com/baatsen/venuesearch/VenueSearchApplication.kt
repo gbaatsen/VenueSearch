@@ -19,6 +19,5 @@ class VenueSearchApplication : Application() {
             // use modules
             modules(appModule)
         }
-
     }
 }

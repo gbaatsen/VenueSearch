@@ -16,12 +16,13 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 import retrofit2.HttpException
 import retrofit2.Response
 
 class VenueDetailsViewModelTest {
     @get:Rule
-    val mockitoRule = MockitoJUnit.rule()
+    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     @get:Rule
     var testRule: TestRule = InstantTaskExecutorRule()
@@ -29,7 +30,7 @@ class VenueDetailsViewModelTest {
     @Mock
     private lateinit var getVenueDetailsService: GetVenueDetailsService
 
-    val photoUrls = listOf("http://www.1.nl", "http://www.2.nl")
+    private val photoUrls = listOf("http://www.1.nl", "http://www.2.nl")
     private lateinit var venueDetailsViewModel: VenueDetailsViewModel
 
     @Before
