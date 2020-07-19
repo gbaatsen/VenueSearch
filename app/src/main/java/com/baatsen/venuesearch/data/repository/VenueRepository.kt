@@ -1,27 +1,22 @@
 package com.baatsen.venuesearch.data.repository
 
-import android.content.SharedPreferences
 import com.baatsen.venuesearch.BuildConfig
 import com.baatsen.venuesearch.data.model.VenueMapper
-import com.baatsen.venuesearch.data.service.FourSquareService
+import com.baatsen.venuesearch.data.service.FourSquareApiConfig
 import com.baatsen.venuesearch.domain.model.Venue
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
 
 
 class VenueRepository(
-    private val fourSquareService: FourSquareService,
-    private val venueMapper: VenueMapper,
-    private val sharedPreferences: SharedPreferences,
-    private val gson: Gson
+    private val fourSquareApiConfig: FourSquareApiConfig,
+    private val venueMapper: VenueMapper
 ) {
     val RADIUS = 10000
     val LIMIT = 10
     val VERSION_DATE = "20200701"
 
     fun getVenues(location: String): Single<List<Venue>> {
-        return fourSquareService.getVenues(
+        return fourSquareApiConfig.create().getVenues(
             clientId = BuildConfig.CLIENT_ID,
             secretId = BuildConfig.SECRET_ID,
             near = location,
@@ -30,21 +25,6 @@ class VenueRepository(
             versionDate = VERSION_DATE
         )
             .map { venueMapper.transform(it) }
-            .doOnNext { store(location, it) }
-            .onErrorReturn { getFromCache(location) }
             .singleOrError()
-    }
-
-    private fun getFromCache(location: String): List<Venue>? {
-        val itemType = object : TypeToken<List<Venue>>() {}.type
-        val json = sharedPreferences.getString(location, null)
-        json?.let {
-            return gson.fromJson<List<Venue>>(it, itemType)
-        }
-        return null
-    }
-
-    private fun store(location: String, response: List<Venue>) {
-        sharedPreferences.edit().putString(location, gson.toJson(response)).apply()
     }
 }

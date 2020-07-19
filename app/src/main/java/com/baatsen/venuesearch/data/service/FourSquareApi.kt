@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface FourSquareService {
+interface FourSquareApi {
     /**
      * @param clientId - the client ID for FourSquare
      * @param secretId - the secret ID for FourSquare

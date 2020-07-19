@@ -36,7 +36,6 @@ class VenueDetailsViewModelTest {
     fun setup() {
         venueDetailsViewModel =
             VenueDetailsViewModel(ImmediateSchedulerProvider, getVenueDetailsService)
-
     }
 
     @Test
